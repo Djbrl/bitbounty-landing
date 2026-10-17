@@ -386,3 +386,20 @@ footer { border-top: 1px solid rgba(11,31,23,0.1); }
 .map-hub { transform-box: fill-box; transform-origin: center; animation: hub 2.4s ease-in-out infinite; }
 @keyframes hub { 0%,100% { opacity: 0.55; } 50% { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .map-hub { animation: none; } }
+.v-map { width: min(480px, 42vw); }
+.africa { width: 100%; height: auto; display: block; }
+.af-borders { fill: none; stroke: #DCE3DE; stroke-width: 0.7; stroke-linejoin: round; }
+.af-outline { fill: none; stroke: #0B1F17; stroke-width: 1.4; stroke-linejoin: round; }
+.af-dots circle { fill: #1F9D55; opacity: 0.7; }
+.af-dots circle.tw { animation: tw 2.6s ease-in-out infinite; }
+@keyframes tw { 0%,100% { opacity: 0.25; } 50% { opacity: 1; } }
+.af-pin { fill: #F2A007; stroke: #FFFFFF; stroke-width: 2.5; }
+.af-pulse { fill: #F2A007; opacity: 0.25; transform-box: fill-box; transform-origin: center; animation: pulse 1.8s ease-out infinite; }
+.af-label { font: 700 15px var(--body); fill: #0B1F17; paint-order: stroke; stroke: #FFFFFF; stroke-width: 4px; }
+.v-human { display: flex; gap: 10px; align-items: center; border-top: 1px solid #EEF1F4; padding-top: 12px; font-weight: 500; font-size: 15px; }
+.v-approved { margin-left: auto; background: #DAFBE1; color: #116329; border-radius: 99px; padding: 4px 10px; font-size: 13px; font-weight: 700; }
+.v-integr { font-weight: 500; font-size: 13.5px; color: var(--muted); }
+.v-integr b { color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { .af-dots circle.tw, .af-pulse { animation: none; } }
+@media (max-width: 760px) { .v-map { width: calc(100vw - 96px); } }
+.v-checks li.v-integr { display: block; }
