@@ -33,6 +33,40 @@
 </header>
 
 <main>
+<div class="phone-fx" id="phone" aria-hidden="true">
+  <div class="phone-body">
+    <div class="ph-rail" id="phRail">
+      <div class="rail-labels mono"><span>sats</span><span>held</span><span>FCFA</span></div>
+      <div class="rail-track"><div class="rail-fill" id="railFill"></div></div>
+    </div>
+    <div class="ph-layer ph-lock" data-layer="lock">
+      <span class="clock">18:51</span>
+      <span class="date">Sunday 18 October</span>
+      <div class="notif"><i>W</i><span><b>Wave</b> · now<br>Vous avez reçu 10 000 F.</span></div>
+    </div>
+    <div class="ph-layer col" data-layer="0">
+      <div class="card issue">
+        <small>issue #12</small>
+        <b>Retry payouts on 5xx</b>
+        <div class="chips"><span>47 days</span><span>0 comments</span><span>no assignee</span></div>
+      </div>
+    </div>
+    <div class="ph-layer col" data-layer="1">
+      <span class="money xl">10 000 F</span>
+      <span class="tag amber"><svg width="14" height="16" viewBox="0 0 14 16" aria-hidden="true"><path d="M8 1L2 9h4l-1 6 6-8H7l1-6z" fill="currentColor"/></svg>16 820 sats · Paris · 1.4 s</span>
+    </div>
+    <div class="ph-layer col" data-layer="2">
+      <span class="avatar">AS</span>
+      <b class="handle">@awa-sow · Dakar</b>
+      <span class="tag outline mono">/claim</span>
+    </div>
+    <div class="ph-layer col" data-layer="3">
+      <span class="tag purple xl">Merged</span>
+      <div class="ticks"><i></i><i></i><i></i></div>
+    </div>
+  </div>
+</div>
+
   <section id="top" class="hero">
     <span class="product">BitBounty</span>
     <h1>Merge it. Get paid.</h1>
@@ -48,11 +82,7 @@
         <b>Retry payouts on 5xx</b>
         <small>bitnob-js #34 · @awa-sow</small>
       </div>
-      <div class="phone big">
-        <span class="clock">18:51</span>
-        <span class="date">Sunday 18 October</span>
-        <div class="notif"><i>W</i><span><b>Wave</b> · now<br>Vous avez reçu 10 000 F.</span></div>
-      </div>
+      <div class="phone-slot hero-slot" id="heroSlot" aria-hidden="true"></div>
       <div class="amount">
         <span class="mono muted">6 minutes after the merge</span>
         <span class="money">10 000<br>FCFA</span>
@@ -62,7 +92,7 @@
 
   <section id="how" class="dark-band">
     <div class="wrap">
-      <h2 class="center">From forgotten issue<br>to a phone in Dakar.</h2>
+      <h2 class="story-title">From forgotten issue<br>to a phone in Dakar.</h2>
       <div id="story" class="story">
         <div class="steps">
           <div class="step" data-step="0"><span class="mono green-t">01</span><h3>Forgotten for 47 days.</h3></div>
@@ -71,40 +101,8 @@
           <div class="step" data-step="3"><span class="mono green-t">04</span><h3>Merged.</h3></div>
           <div class="step" data-step="4"><span class="mono green-t">05</span><h3>Paid. Six minutes later.</h3></div>
         </div>
-        <div class="stage" aria-live="polite">
-          <div class="rail">
-            <div class="rail-labels mono"><span>sats</span><span>held</span><span>FCFA</span></div>
-            <div class="rail-track"><div class="rail-fill" id="railFill"></div></div>
-          </div>
-          <div class="scenes">
-            <div class="scene" data-scene="0">
-              <div class="card issue">
-                <small>issue #12</small>
-                <b>Retry payouts on 5xx</b>
-                <div class="chips"><span>47 days</span><span>0 comments</span><span>no assignee</span></div>
-              </div>
-            </div>
-            <div class="scene col" data-scene="1">
-              <span class="money xl">10 000 F</span>
-              <span class="tag amber"><svg width="14" height="16" viewBox="0 0 14 16" aria-hidden="true"><path d="M8 1L2 9h4l-1 6 6-8H7l1-6z" fill="currentColor"/></svg>16 820 sats · Paris · 1.4 s</span>
-            </div>
-            <div class="scene col" data-scene="2">
-              <span class="avatar">AS</span>
-              <b class="handle">@awa-sow · Dakar</b>
-              <span class="tag outline mono">/claim</span>
-            </div>
-            <div class="scene col" data-scene="3">
-              <span class="tag purple xl">Merged</span>
-              <div class="ticks"><i></i><i></i><i></i></div>
-            </div>
-            <div class="scene" data-scene="4">
-              <div class="phone small">
-                <span class="clock">18:51</span>
-                <div class="notif"><i>W</i><span><b>Wave</b><br>Vous avez reçu 10 000 F.</span></div>
-              </div>
-              <span class="money lg">+10 000<br>FCFA</span>
-            </div>
-          </div>
+        <div class="stage-wrap">
+          <div class="phone-slot stage-slot" id="stageSlot" aria-hidden="true"></div>
         </div>
       </div>
     </div>

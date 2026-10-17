@@ -22,33 +22,64 @@
     v.replaceChildren(f);
   }
 
-  // Scrollytelling
+  // Scrollytelling: one phone flies from the hero to the story and plays the scenes on its screen
+  var phone = document.getElementById("phone");
+  var heroSlot = document.getElementById("heroSlot");
+  var stageSlot = document.getElementById("stageSlot");
+  var stageWrap = stageSlot.parentElement;
   var story = document.getElementById("story");
-  var steps = Array.prototype.slice.call(document.querySelectorAll(".step"));
-  var scenes = Array.prototype.slice.call(document.querySelectorAll(".scene"));
+  var rail = document.getElementById("phRail");
   var fill = document.getElementById("railFill");
-  var current = -1;
+  var steps = Array.prototype.slice.call(document.querySelectorAll(".step"));
+  var layers = Array.prototype.slice.call(phone.querySelectorAll(".ph-layer"));
+  var heroSide = Array.prototype.slice.call(document.querySelectorAll(".hero-visual .amount, .hero-visual .card.merged"));
+  var BASE_W = 360;
+  var mode = null, stepNow = -1, ticking = false;
 
-  function render(step, progress) {
-    fill.style.width = Math.round(progress * 100) + "%";
-    fill.classList.toggle("done", step >= 4);
-    if (step === current) return;
-    current = step;
-    steps.forEach(function (s, i) { s.classList.toggle("on", i === step); });
-    scenes.forEach(function (s, i) {
-      s.classList.toggle("on", i === step);
-      s.classList.toggle("past", i < step);
+  function clamp(x) { return Math.min(1, Math.max(0, x)); }
+  function ease(x) { return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function setMode(next, step) {
+    if (next === mode && step === stepNow) return;
+    var order = ["lock", "0", "1", "2", "3"];
+    mode = next; stepNow = step;
+    layers.forEach(function (l) {
+      var key = l.getAttribute("data-layer");
+      l.classList.toggle("on", key === next);
+      l.classList.toggle("past", order.indexOf(key) < order.indexOf(next));
     });
+    steps.forEach(function (s, i) { s.classList.toggle("on", i === step); });
   }
 
-  function onScroll() {
-    var r = story.getBoundingClientRect();
+  function frame() {
+    ticking = false;
     var vh = window.innerHeight || 800;
-    var p = Math.min(1, Math.max(0, (vh * 0.55 - r.top) / Math.max(1, r.height - vh * 0.3)));
-    render(Math.min(4, Math.floor(p * 5)), p);
+    var h = heroSlot.getBoundingClientRect();
+    var st = stageSlot.getBoundingClientRect();
+    var stickyTop = parseFloat(getComputedStyle(stageWrap).top) || 80;
+    var t = clamp((vh - st.top) / Math.max(1, vh - stickyTop));
+    var e = ease(t), ex = ease(clamp(t * 2.2));
+    var left = lerp(h.left, st.left, ex), top = lerp(h.top, st.top, e), w = lerp(h.width, st.width, e);
+    phone.style.transform = "translate(" + left + "px," + top + "px) scale(" + (w / BASE_W) + ")";
+    phone.classList.add("ready");
+    var fade = String(clamp(1 - t * 3));
+    heroSide.forEach(function (el) { el.style.opacity = fade; });
+
+    var r = story.getBoundingClientRect();
+    var p = clamp((vh * 0.55 - r.top) / Math.max(1, r.height - vh * 0.3));
+    var step = Math.min(4, Math.floor(p * 5));
+    var inStory = t > 0.98;
+    rail.classList.toggle("on", inStory);
+    fill.style.width = Math.round(p * 100) + "%";
+    fill.classList.toggle("done", step >= 4);
+    if (!inStory) setMode("lock", -1);
+    else setMode(step >= 4 ? "lock" : String(step), step);
   }
 
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll);
-  onScroll();
+  function request() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+  window.addEventListener("scroll", request, { passive: true });
+  window.addEventListener("resize", request);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(request);
+  frame();
 })();

@@ -157,3 +157,41 @@ footer { border-top: 1px solid rgba(11,31,23,0.1); }
 .foot-in { max-width: 1024px; margin: 0 auto; padding: 20px 22px calc(32px + env(safe-area-inset-bottom, 0px)); display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; font-size: 12px; color: var(--muted); }
 
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+
+/* ---------- the one moving phone ---------- */
+/* Slots reserve space; the fixed phone is positioned over whichever slot the scroll is at. */
+.phone-slot { aspect-ratio: 360 / 740; flex: 0 0 auto; }
+.hero-slot { width: 290px; }
+.stage-wrap { flex: 1 1 380px; min-width: 0; position: sticky; top: calc(50vh - min(330px, 44vh)); display: flex; justify-content: center; }
+.stage-slot { width: min(330px, 42vh); }
+@media (max-width: 960px) {
+  .stage-wrap { order: -1; top: 56px; z-index: 2; }
+  .stage-slot { width: min(210px, 52vw); }
+}
+.phone-fx { position: fixed; left: 0; top: 0; width: 360px; height: 740px; transform-origin: 0 0; z-index: 4; pointer-events: none; will-change: transform; visibility: hidden; }
+.phone-fx.ready { visibility: visible; }
+.phone-body { position: relative; width: 100%; height: 100%; border-radius: 58px; background: #050D09; border: 12px solid #1C2B24; overflow: hidden; color: #F4F5F1; box-shadow: 0 40px 80px rgba(11,31,23,0.25); }
+.phone-body::before { content: ""; position: absolute; top: 12px; left: 50%; width: 96px; height: 28px; margin-left: -48px; border-radius: 99px; background: #000; z-index: 3; }
+.ph-rail { position: absolute; left: 22px; right: 22px; top: 62px; display: flex; flex-direction: column; gap: 8px; opacity: 0; transition: opacity 0.4s ease; z-index: 2; }
+.ph-rail.on { opacity: 1; }
+.ph-layer { position: absolute; inset: 0; padding: 120px 22px 40px; display: flex; align-items: center; justify-content: center; gap: 22px; opacity: 0; transform: translateY(18px); transition: opacity 0.45s ease, transform 0.45s ease; }
+.ph-layer.col { flex-direction: column; }
+.ph-layer.past { transform: translateY(-18px); }
+.ph-layer.on { opacity: 1; transform: none; }
+.ph-lock { flex-direction: column; justify-content: flex-start; padding-top: 96px; gap: 6px; }
+.ph-lock .clock { font-weight: 300; font-size: 84px; line-height: 1; letter-spacing: -0.03em; }
+.ph-lock .date { color: var(--mint); font-size: 16px; }
+.ph-lock .notif { margin-top: 36px; width: 100%; font-size: 15px; padding: 14px; border-radius: 20px; }
+.ph-lock .notif i { width: 40px; height: 40px; font-size: 16px; }
+.phone-fx .card.issue { padding: 20px; }
+.phone-fx .card.issue b { font-size: 22px; }
+.phone-fx .money.xl { font-size: 64px; }
+.phone-fx .tag.amber { font-size: 13px; padding: 8px 13px; }
+.phone-fx .avatar { width: 104px; height: 104px; font-size: 38px; }
+.phone-fx .handle { font-size: 22px; }
+.phone-fx .tag.purple.xl { font-size: 30px; padding: 10px 22px; }
+.phone-fx .ticks i { width: 44px; height: 44px; background-size: 20px; }
+.steps .step { min-height: 560px; }
+@media (prefers-reduced-motion: reduce) { .phone-fx { will-change: auto; } }
+.story-title { max-width: 54%; }
+@media (max-width: 960px) { .story-title { max-width: none; text-align: center; } }
