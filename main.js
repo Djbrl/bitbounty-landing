@@ -22,67 +22,90 @@
     v.replaceChildren(f);
   }
 
-  // Scrollytelling: one phone flies from the hero to the story and plays the scenes on its screen
-  var phone = document.getElementById("phone");
-  var heroSlot = document.getElementById("heroSlot");
-  var stageSlot = document.getElementById("stageSlot");
-  var stageWrap = stageSlot.parentElement;
-  var story = document.getElementById("story");
-  var rail = document.getElementById("phRail");
-  var fill = document.getElementById("railFill");
-  var steps = Array.prototype.slice.call(document.querySelectorAll(".cap"));
-  var stepsBox = document.getElementById("steps");
-  var layers = Array.prototype.slice.call(phone.querySelectorAll(".ph-layer"));
-  var heroSide = Array.prototype.slice.call(document.querySelectorAll(".hero-visual .amount, .hero-visual .card.merged"));
-  var storyTitle = document.querySelector(".story-title");
-  var BASE_W = 360;
-  var mode = null, stepNow = -1, ticking = false;
+  // Git-graph story: the green line comes out from under the hero phone, branches out
+  // to each feature, and turns purple at the merge that pays the developer.
+  var graph = document.getElementById("graph");
+  var svg = document.getElementById("graphSvg");
+  var heroPhone = document.querySelector(".phone.big");
+  var rows = Array.prototype.slice.call(graph.querySelectorAll(".g-row"));
+  var NS = "http://www.w3.org/2000/svg";
+  var GREEN = "#1F9D55", PURPLE = "#8250DF", LANE = 58;
+  var clipRect, ticking = false;
 
-  function clamp(x) { return Math.min(1, Math.max(0, x)); }
-  function ease(x) { return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
-  function lerp(a, b, t) { return a + (b - a) * t; }
-
-  function setMode(next, step) {
-    if (next === mode && step === stepNow) return;
-    var order = ["lock", "0", "1", "2", "3"];
-    mode = next; stepNow = step;
-    layers.forEach(function (l) {
-      var key = l.getAttribute("data-layer");
-      l.classList.toggle("on", key === next);
-      l.classList.toggle("past", order.indexOf(key) < order.indexOf(next));
-    });
-    steps.forEach(function (s, i) { s.classList.toggle("on", i === step); });
+  function el(name, attrs) {
+    var n = document.createElementNS(NS, name);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
   }
 
-  function frame() {
+  function layout() {
+    var narrow = window.innerWidth <= 760;
+    var g = graph.getBoundingClientRect();
+    var p = heroPhone.getBoundingClientRect();
+    var startX = p.left + p.width / 2 - g.left;
+    var spineX = narrow ? 34 : g.width / 2;
+    var W = g.width, H = graph.offsetHeight;
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    svg.replaceChildren();
+
+    var defs = el("defs", {});
+    var clip = el("clipPath", { id: "reveal" });
+    clipRect = el("rect", { x: -50, y: 0, width: W + 100, height: 0 });
+    clip.appendChild(clipRect); defs.appendChild(clip); svg.appendChild(defs);
+    var layer = el("g", { "clip-path": "url(#reveal)" });
+    svg.appendChild(layer);
+
+    var feature = 0, mergeY = H - 200, endY = H - 200;
+    rows.forEach(function (row) {
+      var kind = row.getAttribute("data-kind");
+      if (kind === "end") return;
+      var right = narrow ? true : (feature % 2 === 0);
+      row.classList.toggle("right", right && !narrow);
+      row.classList.toggle("left", !right && !narrow);
+      feature++;
+    });
+
+    // positions after classes applied
+    var pieces = [];
+    rows.forEach(function (row) {
+      var kind = row.getAttribute("data-kind");
+      var top = row.offsetTop, h = row.offsetHeight;
+      if (kind === "end") { endY = top + 30; return; }
+      var right = narrow || row.classList.contains("right");
+      var lane = narrow ? 28 : LANE;
+      var laneX = spineX + (right ? lane : -lane);
+      var forkY = top - 46, inY = top + 8, outY = top + h + 10, joinY = top + h + 64;
+      var color = kind === "merge" ? PURPLE : GREEN;
+      var d = "M" + spineX + "," + forkY + " C" + spineX + "," + (forkY + 30) + " " + laneX + "," + (inY - 30) + " " + laneX + "," + inY +
+              " L" + laneX + "," + outY + " C" + laneX + "," + (outY + 30) + " " + spineX + "," + (joinY - 30) + " " + spineX + "," + joinY;
+      pieces.push(el("path", { d: d, fill: "none", stroke: color, "stroke-width": 4, "stroke-linecap": "round" }));
+      var dotY = top + Math.min(36, h / 2);
+      pieces.push(el("circle", { cx: laneX, cy: dotY, r: 9, fill: "#FFFFFF", stroke: color, "stroke-width": 4 }));
+      if (kind === "merge") mergeY = joinY;
+    });
+
+    var mainD = "M" + startX + ",0 C" + startX + ",60 " + spineX + ",50 " + spineX + ",110 L" + spineX + "," + mergeY;
+    layer.appendChild(el("path", { d: mainD, fill: "none", stroke: GREEN, "stroke-width": 4, "stroke-linecap": "round" }));
+    layer.appendChild(el("path", { d: "M" + spineX + "," + mergeY + " L" + spineX + "," + endY, fill: "none", stroke: PURPLE, "stroke-width": 6, "stroke-linecap": "round" }));
+    pieces.forEach(function (n) { layer.appendChild(n); });
+    layer.appendChild(el("circle", { cx: spineX, cy: mergeY, r: 11, fill: PURPLE }));
+    layer.appendChild(el("circle", { cx: spineX, cy: endY, r: 14, fill: PURPLE }));
+    update();
+  }
+
+  function update() {
     ticking = false;
     var vh = window.innerHeight || 800;
-    var h = heroSlot.getBoundingClientRect();
-    var st = stageSlot.getBoundingClientRect();
-    var stickyTop = parseFloat(getComputedStyle(stageWrap).top) || 80;
-    var t = clamp((vh - st.top) / Math.max(1, vh - stickyTop));
-    var e = ease(t);
-    var left = lerp(h.left, st.left, e), top = lerp(h.top, st.top, e), w = lerp(h.width, st.width, e);
-    phone.style.transform = "translate(" + left + "px," + top + "px) scale(" + (w / BASE_W) + ")";
-    phone.classList.add("ready");
-    var fade = String(clamp(1 - t * 3));
-    heroSide.forEach(function (el) { el.style.opacity = fade; });
-    storyTitle.style.opacity = String(clamp(1 - (t - 0.15) * 2.5));
-
-    var sb = stepsBox.getBoundingClientRect();
-    var p = clamp((st.bottom - sb.top) / Math.max(1, sb.height - vh * 0.35));
-    var step = Math.min(4, Math.floor(p * 5));
-    var inStory = t > 0.98;
-    rail.classList.toggle("on", inStory);
-    fill.style.width = Math.round(p * 100) + "%";
-    fill.classList.toggle("done", step >= 4);
-    if (!inStory) setMode("lock", -1);
-    else setMode(step >= 4 ? "lock" : String(step), step);
+    var g = graph.getBoundingClientRect();
+    var revealY = Math.max(0, vh * 0.62 - g.top);
+    if (clipRect) clipRect.setAttribute("height", revealY);
+    rows.forEach(function (row) { row.classList.toggle("on", revealY > row.offsetTop + 10); });
   }
 
-  function request() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+  function request() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
   window.addEventListener("scroll", request, { passive: true });
-  window.addEventListener("resize", request);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(request);
-  frame();
+  var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(layout, 120); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+  window.addEventListener("load", layout);
+  layout();
 })();

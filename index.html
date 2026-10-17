@@ -33,40 +33,6 @@
 </header>
 
 <main>
-<div class="phone-fx" id="phone" aria-hidden="true">
-  <div class="phone-body">
-    <div class="ph-rail" id="phRail">
-      <div class="rail-labels mono"><span>sats</span><span>held</span><span>FCFA</span></div>
-      <div class="rail-track"><div class="rail-fill" id="railFill"></div></div>
-    </div>
-    <div class="ph-layer ph-lock" data-layer="lock">
-      <span class="clock">18:51</span>
-      <span class="date">Sunday 18 October</span>
-      <div class="notif"><i>W</i><span><b>Wave</b> · now<br>Vous avez reçu 10 000 F.</span></div>
-    </div>
-    <div class="ph-layer col" data-layer="0">
-      <div class="card issue">
-        <small>issue #12</small>
-        <b>Retry payouts on 5xx</b>
-        <div class="chips"><span>47 days</span><span>0 comments</span><span>no assignee</span></div>
-      </div>
-    </div>
-    <div class="ph-layer col" data-layer="1">
-      <span class="money xl">10 000 F</span>
-      <span class="tag amber"><svg width="14" height="16" viewBox="0 0 14 16" aria-hidden="true"><path d="M8 1L2 9h4l-1 6 6-8H7l1-6z" fill="currentColor"/></svg>16 820 sats · Paris · 1.4 s</span>
-    </div>
-    <div class="ph-layer col" data-layer="2">
-      <span class="avatar">AS</span>
-      <b class="handle">@awa-sow · Dakar</b>
-      <span class="tag outline mono">/claim</span>
-    </div>
-    <div class="ph-layer col" data-layer="3">
-      <span class="tag purple xl">Merged</span>
-      <div class="ticks"><i></i><i></i><i></i></div>
-    </div>
-  </div>
-</div>
-
   <section id="top" class="hero">
     <span class="product">BitBounty</span>
     <h1>Merge it. Get paid.</h1>
@@ -82,7 +48,11 @@
         <b>Retry payouts on 5xx</b>
         <small>bitnob-js #34 · @awa-sow</small>
       </div>
-      <div class="phone-slot hero-slot" id="heroSlot" aria-hidden="true"></div>
+      <div class="phone big">
+        <span class="clock">18:51</span>
+        <span class="date">Sunday 18 October</span>
+        <div class="notif"><i>W</i><span><b>Wave</b> · now<br>Vous avez reçu 10 000 F.</span></div>
+      </div>
       <div class="amount">
         <span class="mono muted">6 minutes after the merge</span>
         <span class="money">10 000<br>FCFA</span>
@@ -90,22 +60,49 @@
     </div>
   </section>
 
-  <section id="how" class="dark-band">
-    <div class="wrap">
-      <h2 class="story-title center">From forgotten issue<br>to a phone in Dakar.</h2>
-      <div id="story" class="story">
-        <div class="stage-wrap">
-          <div class="captions" aria-live="polite">
-            <div class="cap" data-cap="0"><span class="mono green-t">01</span><h3>Forgotten for 47 days.</h3></div>
-            <div class="cap" data-cap="1"><span class="mono green-t">02</span><h3>Funded from Paris in a second.</h3></div>
-            <div class="cap" data-cap="2"><span class="mono green-t">03</span><h3>Claimed in Dakar.</h3></div>
-            <div class="cap" data-cap="3"><span class="mono green-t">04</span><h3>Merged.</h3></div>
-            <div class="cap" data-cap="4"><span class="mono green-t">05</span><h3>Paid. Six minutes later.</h3></div>
-          </div>
-          <div class="phone-slot stage-slot" id="stageSlot" aria-hidden="true"></div>
-        </div>
-        <div class="steps" id="steps" aria-hidden="true">
-          <div class="step"></div><div class="step"></div><div class="step"></div><div class="step"></div><div class="step"></div>
+  <section id="how" class="graph-sec">
+    <div class="graph" id="graph">
+      <svg class="graph-svg" id="graphSvg" aria-hidden="true"></svg>
+
+      <div class="g-row" data-kind="feature">
+        <span class="g-branch mono">bounty/post</span>
+        <h3>Post a bounty.</h3>
+        <p>One comment on any issue.</p>
+        <code class="g-code">/bounty 10000</code>
+      </div>
+
+      <div class="g-row" data-kind="feature">
+        <span class="g-branch mono">bounty/fund</span>
+        <h3>Funded in sats.</h3>
+        <p>Held until the merge.</p>
+        <span class="tag amber"><svg width="14" height="16" viewBox="0 0 14 16" aria-hidden="true"><path d="M8 1L2 9h4l-1 6 6-8H7l1-6z" fill="currentColor"/></svg>16 820 sats · Paris · 1.4 s</span>
+      </div>
+
+      <div class="g-row" data-kind="feature">
+        <span class="g-branch mono">bounty/claim</span>
+        <h3>Claimed in Dakar.</h3>
+        <p>72 hours, nobody else on it.</p>
+        <span class="g-who"><span class="avatar sm">AS</span><b>@awa-sow</b><span class="tag outline-light mono">/claim</span></span>
+      </div>
+
+      <div class="g-row" data-kind="feature">
+        <span class="g-branch mono">bounty/review</span>
+        <h3>Checked by AI.</h3>
+        <p>Every criterion, with evidence.</p>
+        <span class="g-ticks"><i></i><i></i><i></i><b>3/3 criteria</b></span>
+      </div>
+
+      <div class="g-row" data-kind="merge">
+        <span class="g-branch mono purple-t">awa-sow/fix-retry</span>
+        <h3>Merged.</h3>
+        <span class="tag purple">Merged #34 into main</span>
+      </div>
+
+      <div class="g-row g-final" data-kind="end">
+        <h3>Paid on Wave.<br>Six minutes later.</h3>
+        <div class="g-pay">
+          <span class="money">10 000 FCFA</span>
+          <div class="notif"><i>W</i><span><b>Wave</b> · now<br>Vous avez reçu 10 000 F.</span></div>
         </div>
       </div>
     </div>
