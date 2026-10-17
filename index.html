@@ -42,21 +42,24 @@
       <a class="link" href="#maintainers">Post a bounty ›</a>
     </div>
 
-    <div class="hero-visual">
-      <div class="card merged">
-        <span class="tag purple">Merged</span>
-        <b>Retry payouts on 5xx</b>
-        <small>bitnob-js #34 · @awa-sow</small>
+    <div class="laptop" id="laptop" aria-label="A maintainer's laptop showing the issues of a GitHub repository">
+      <div class="lid">
+        <div class="screen">
+          <div class="gh-bar"><span class="gh-dots"><i></i><i></i><i></i></span><span class="gh-url">github.com/bitnob-community/bitnob-js/issues</span></div>
+          <div class="gh-head">
+            <span class="gh-repo"><b>bitnob-community</b> / <b>bitnob-js</b></span>
+            <span class="gh-tabs"><span>Code</span><span class="on">Issues <em>41</em></span><span>Pull requests <em>3</em></span><span>Actions</span></span>
+          </div>
+          <ul class="gh-issues">
+            <li class="hot"><span class="gh-open"></span><span><b>Retry payouts.finalize() on 5xx</b><small>#12 opened 47 days ago</small></span><span class="gh-label bounty">bounty · 10 000 F</span></li>
+            <li><span class="gh-open"></span><span><b>Typed models for card webhooks</b><small>#18 opened 3 weeks ago</small></span><span class="gh-label">enhancement</span></li>
+            <li><span class="gh-open"></span><span><b>README: HMAC signing example in Python</b><small>#23 opened 2 weeks ago</small></span><span class="gh-label">docs</span></li>
+            <li><span class="gh-open"></span><span><b>Pagination helper for list endpoints</b><small>#27 opened 9 days ago</small></span></li>
+            <li><span class="gh-open"></span><span><b>Translate error messages to French</b><small>#31 opened 4 days ago</small></span><span class="gh-label">good first issue</span></li>
+          </ul>
+        </div>
       </div>
-      <div class="phone big">
-        <span class="clock">18:51</span>
-        <span class="date">Sunday 18 October</span>
-        <div class="notif"><i>W</i><span><b>Wave</b> · now<br>Vous avez reçu 10 000 F.</span></div>
-      </div>
-      <div class="amount">
-        <span class="mono muted">6 minutes after the merge</span>
-        <span class="money">10 000<br>FCFA</span>
-      </div>
+      <div class="base"><i></i></div>
     </div>
   </section>
 
@@ -66,47 +69,86 @@
         <svg class="graph-svg" id="graphSvg" aria-hidden="true"></svg>
 
         <div class="g-stop" data-stop="post">
-          <span class="g-branch mono">main</span>
-          <h3>Post a bounty.</h3>
-          <code class="g-code">/bounty 10000</code>
+          <div class="g-text"><span class="g-branch mono">main</span><h3>Post a bounty.</h3><p>One comment on the issue.</p></div>
+          <div class="g-visual">
+            <div class="v-card">
+              <div class="v-comment"><span class="avatar xs" style="background:#C2662D">M</span><span><b>mamadou-dev</b> commented</span></div>
+              <code class="v-code">/bounty 10000</code>
+              <div class="v-bot"><span class="v-botmark"><svg width="14" height="14" viewBox="0 0 30 30" aria-hidden="true"><path d="M8 4v22" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M8 9c0 6 4 9 10.5 9.5" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="21.5" cy="18.5" r="5.2" fill="#F2A007"/></svg></span><span><b>bitbounty</b> · 10 000 FCFA · waiting for funding</span></div>
+            </div>
+          </div>
         </div>
 
         <div class="g-stop" data-stop="fund">
-          <span class="g-branch mono">bounty/fund</span>
-          <h3>Funded in sats.</h3>
-          <span class="tag amber"><svg width="14" height="16" viewBox="0 0 14 16" aria-hidden="true"><path d="M8 1L2 9h4l-1 6 6-8H7l1-6z" fill="currentColor"/></svg>16 820 sats · Paris · 1.4 s</span>
+          <div class="g-text"><span class="g-branch mono">bounty/fund</span><h3>Funded in sats.</h3><p>From Paris, in about a second.</p></div>
+          <div class="g-visual">
+            <div class="v-flow">
+              <span class="tag amber big"><svg width="14" height="16" viewBox="0 0 14 16" aria-hidden="true"><path d="M8 1L2 9h4l-1 6 6-8H7l1-6z" fill="currentColor"/></svg>16 820 sats</span>
+              <svg class="v-arrow" width="24" height="34" viewBox="0 0 24 34" aria-hidden="true"><path d="M12 2v26M6 22l6 6 6-6" stroke="#0B1F17" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="v-bitnob"><img src="assets/bitnob-logo-white.svg" alt="Bitnob" width="132" height="29"></span>
+              <svg class="v-arrow" width="24" height="34" viewBox="0 0 24 34" aria-hidden="true"><path d="M12 2v26M6 22l6 6 6-6" stroke="#0B1F17" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="v-held"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="9" rx="2" fill="#1F9D55"/><path d="M7 9V6.5a3 3 0 016 0V9" stroke="#1F9D55" stroke-width="2" fill="none"/></svg>Held until the merge</span>
+            </div>
+          </div>
         </div>
 
         <div class="g-stop" data-stop="claim">
-          <span class="g-branch mono">main</span>
-          <h3>Claimed in Dakar.</h3>
-          <span class="g-who"><span class="avatar sm">AS</span><b>@awa-sow</b></span>
+          <div class="g-text"><span class="g-branch mono">main</span><h3>Claimed in Dakar.</h3><p>72 hours, nobody else on it.</p></div>
+          <div class="g-visual">
+            <div class="v-map">
+              <svg class="map-dots" id="mapDots" viewBox="0 0 240 230" role="img" aria-label="Dot map of Africa with a pin on Dakar"></svg>
+              <div class="v-mapfoot"><span class="avatar xs" style="background:#C2662D">AS</span><span><b>@awa-sow</b> · Dakar, Sénégal</span><code>/claim</code></div>
+            </div>
+          </div>
         </div>
 
         <div class="g-stop" data-stop="push">
-          <span class="g-branch mono purple-t">awa-sow/fix-retry</span>
-          <h3>Fix pushed.</h3>
-          <code class="g-code sm">a3f9c2 · retry with backoff</code>
+          <div class="g-text"><span class="g-branch mono purple-t">awa-sow/fix-retry</span><h3>Fix pushed.</h3><p>A real fix, on a real repo.</p></div>
+          <div class="g-visual">
+            <div class="v-diff">
+              <div class="v-diff-head mono">src/payouts.ts <span>+5 −1</span></div>
+              <pre class="mono"><span class="del">- return await finalize(ref)</span>
+<span class="add">+ for (let i = 0; i &lt; 3; i++) {</span>
+<span class="add">+   const res = await finalize(ref)</span>
+<span class="add">+   if (res.ok) return res</span>
+<span class="add">+   await sleep(400 * 2 ** i)</span>
+<span class="add">+ }</span></pre>
+            </div>
+          </div>
         </div>
 
         <div class="g-stop" data-stop="review">
-          <span class="g-branch mono purple-t">awa-sow/fix-retry</span>
-          <h3>Checked by AI.</h3>
-          <span class="g-ticks"><i></i><i></i><i></i><b>3/3 criteria</b></span>
+          <div class="g-text"><span class="g-branch mono purple-t">awa-sow/fix-retry</span><h3>Checked by AI.</h3><p>Every criterion, with evidence.</p></div>
+          <div class="g-visual">
+            <ul class="v-checks">
+              <li><i></i>Retries 3 times with backoff</li>
+              <li><i></i>Same reference on every retry</li>
+              <li><i></i>Test for a 503, then a 200</li>
+              <li class="v-checks-foot mono">3/3 criteria · 21 s</li>
+            </ul>
+          </div>
         </div>
 
         <div class="g-stop" data-stop="merge">
-          <span class="g-branch mono purple-t">main</span>
-          <h3>Merged.</h3>
-          <span class="tag purple">#34 into main</span>
+          <div class="g-text"><span class="g-branch mono purple-t">main</span><h3>Merged.</h3><p>The maintainer reviews it and merges, like always.</p></div>
+          <div class="g-visual">
+            <div class="v-merged">
+              <span class="v-merged-icon"><svg width="22" height="22" viewBox="0 0 18 18" aria-hidden="true"><circle cx="4.5" cy="3.5" r="2" stroke="#fff" stroke-width="1.8" fill="none"/><circle cx="4.5" cy="14.5" r="2" stroke="#fff" stroke-width="1.8" fill="none"/><circle cx="13.5" cy="9" r="2" stroke="#fff" stroke-width="1.8" fill="none"/><path d="M4.5 5.5v7M4.5 5.5c0 3 3 3.5 7 3.5" stroke="#fff" stroke-width="1.8" fill="none"/></svg></span>
+              <span><b>Pull request successfully merged</b><small>#34 Retry payouts on 5xx · Fixes #12</small></span>
+            </div>
+          </div>
         </div>
 
-        <div class="g-stop g-final" data-stop="paid">
-          <h3>Paid on Wave.<br>Six minutes later.</h3>
-          <div class="g-pay">
-            <span class="money">10 000 FCFA</span>
-            <div class="notif"><i>W</i><span><b>Wave</b> · now<br>Vous avez reçu 10 000 F.</span></div>
+        <div class="g-end" data-stop="paid" id="gEnd">
+          <div class="g-end-text"><h3>Paid on Wave.<br>Six minutes later.</h3></div>
+          <div class="end-phone" id="endPhone">
+            <div class="ep-screen">
+              <span class="clock">18:51</span>
+              <span class="date">Sunday 18 October</span>
+              <div class="notif"><i>W</i><span><b>Wave</b> · now<br>Vous avez reçu 10 000 F.</span></div>
+            </div>
           </div>
+          <div class="g-end-amount"><span class="money">10 000<br>FCFA</span></div>
         </div>
       </div>
     </div>
