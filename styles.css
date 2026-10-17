@@ -253,3 +253,30 @@ footer { border-top: 1px solid rgba(11,31,23,0.1); }
   .g-final { margin-left: 0; align-items: center; text-align: center; }
 }
 @media (max-width: 720px) { .hero-visual .phone.big { order: 3; } .hero-visual .amount { order: 2; } .hero-visual .card.merged { order: 1; } }
+
+/* ---------- v5: camera follows the line ---------- */
+.graph-sec { background: #FFFFFF; overflow: hidden; }
+.graph { position: relative; max-width: none; padding: 0; }
+.graph-canvas { position: absolute; left: 50%; top: 0; width: 0; height: 100%; will-change: transform; }
+.graph-canvas .graph-svg { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: visible; }
+.g-stop { position: absolute; width: min(460px, 40vw); display: flex; flex-direction: column; gap: 14px; opacity: 0; transition: opacity 0.6s ease, transform 0.6s ease; transform: translateY(-50%) translateX(20px); }
+.g-stop.l { align-items: flex-end; text-align: right; transform: translateY(-50%) translateX(-20px); }
+.g-stop.r { align-items: flex-start; }
+.g-stop.on { opacity: 1; transform: translateY(-50%); }
+.g-stop h3 { font-size: clamp(40px, 5vw, 76px); line-height: 0.98; letter-spacing: -0.04em; }
+.g-stop .g-code { font-size: clamp(20px, 2vw, 28px); padding: 14px 18px; }
+.g-stop .g-code.sm { font-size: 18px; }
+.g-stop .tag.amber, .g-stop .tag.purple { font-size: 17px; padding: 10px 16px; align-self: auto; }
+.g-stop .g-ticks i { width: 44px; height: 44px; background-size: 22px; }
+.g-stop .g-ticks b { font-size: 18px; }
+.g-stop .avatar.sm { width: 56px; height: 56px; font-size: 20px; }
+.g-stop .g-who b { font-size: 20px; }
+.g-final { width: min(900px, 92vw); align-items: center; text-align: center; transform: translate(-50%, 0) translateY(20px); }
+.g-final.on { transform: translate(-50%, 0); }
+.g-final h3 { font-size: clamp(48px, 7vw, 110px); }
+@media (max-width: 760px) {
+  .g-stop, .g-stop.l { width: calc(100vw - 110px); align-items: flex-start; text-align: left; }
+  .g-stop h3 { font-size: 40px; }
+  .g-final { width: calc(100vw - 40px); }
+  .g-final h3 { font-size: 46px; }
+}

@@ -62,47 +62,51 @@
 
   <section id="how" class="graph-sec">
     <div class="graph" id="graph">
-      <svg class="graph-svg" id="graphSvg" aria-hidden="true"></svg>
+      <div class="graph-canvas" id="graphCanvas">
+        <svg class="graph-svg" id="graphSvg" aria-hidden="true"></svg>
 
-      <div class="g-row" data-kind="feature">
-        <span class="g-branch mono">bounty/post</span>
-        <h3>Post a bounty.</h3>
-        <p>One comment on any issue.</p>
-        <code class="g-code">/bounty 10000</code>
-      </div>
+        <div class="g-stop" data-stop="post">
+          <span class="g-branch mono">main</span>
+          <h3>Post a bounty.</h3>
+          <code class="g-code">/bounty 10000</code>
+        </div>
 
-      <div class="g-row" data-kind="feature">
-        <span class="g-branch mono">bounty/fund</span>
-        <h3>Funded in sats.</h3>
-        <p>Held until the merge.</p>
-        <span class="tag amber"><svg width="14" height="16" viewBox="0 0 14 16" aria-hidden="true"><path d="M8 1L2 9h4l-1 6 6-8H7l1-6z" fill="currentColor"/></svg>16 820 sats · Paris · 1.4 s</span>
-      </div>
+        <div class="g-stop" data-stop="fund">
+          <span class="g-branch mono">bounty/fund</span>
+          <h3>Funded in sats.</h3>
+          <span class="tag amber"><svg width="14" height="16" viewBox="0 0 14 16" aria-hidden="true"><path d="M8 1L2 9h4l-1 6 6-8H7l1-6z" fill="currentColor"/></svg>16 820 sats · Paris · 1.4 s</span>
+        </div>
 
-      <div class="g-row" data-kind="feature">
-        <span class="g-branch mono">bounty/claim</span>
-        <h3>Claimed in Dakar.</h3>
-        <p>72 hours, nobody else on it.</p>
-        <span class="g-who"><span class="avatar sm">AS</span><b>@awa-sow</b><span class="tag outline-light mono">/claim</span></span>
-      </div>
+        <div class="g-stop" data-stop="claim">
+          <span class="g-branch mono">main</span>
+          <h3>Claimed in Dakar.</h3>
+          <span class="g-who"><span class="avatar sm">AS</span><b>@awa-sow</b></span>
+        </div>
 
-      <div class="g-row" data-kind="feature">
-        <span class="g-branch mono">bounty/review</span>
-        <h3>Checked by AI.</h3>
-        <p>Every criterion, with evidence.</p>
-        <span class="g-ticks"><i></i><i></i><i></i><b>3/3 criteria</b></span>
-      </div>
+        <div class="g-stop" data-stop="push">
+          <span class="g-branch mono purple-t">awa-sow/fix-retry</span>
+          <h3>Fix pushed.</h3>
+          <code class="g-code sm">a3f9c2 · retry with backoff</code>
+        </div>
 
-      <div class="g-row" data-kind="merge">
-        <span class="g-branch mono purple-t">awa-sow/fix-retry</span>
-        <h3>Merged.</h3>
-        <span class="tag purple">Merged #34 into main</span>
-      </div>
+        <div class="g-stop" data-stop="review">
+          <span class="g-branch mono purple-t">awa-sow/fix-retry</span>
+          <h3>Checked by AI.</h3>
+          <span class="g-ticks"><i></i><i></i><i></i><b>3/3 criteria</b></span>
+        </div>
 
-      <div class="g-row g-final" data-kind="end">
-        <h3>Paid on Wave.<br>Six minutes later.</h3>
-        <div class="g-pay">
-          <span class="money">10 000 FCFA</span>
-          <div class="notif"><i>W</i><span><b>Wave</b> · now<br>Vous avez reçu 10 000 F.</span></div>
+        <div class="g-stop" data-stop="merge">
+          <span class="g-branch mono purple-t">main</span>
+          <h3>Merged.</h3>
+          <span class="tag purple">#34 into main</span>
+        </div>
+
+        <div class="g-stop g-final" data-stop="paid">
+          <h3>Paid on Wave.<br>Six minutes later.</h3>
+          <div class="g-pay">
+            <span class="money">10 000 FCFA</span>
+            <div class="notif"><i>W</i><span><b>Wave</b> · now<br>Vous avez reçu 10 000 F.</span></div>
+          </div>
         </div>
       </div>
     </div>

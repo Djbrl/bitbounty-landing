@@ -22,90 +22,111 @@
     v.replaceChildren(f);
   }
 
-  // Git-graph story: the green line comes out from under the hero phone, branches out
-  // to each feature, and turns purple at the merge that pays the developer.
+  // Git-graph story, camera-follow version. The canvas is centred on the page; the line
+  // starts under the hero phone. The camera pans so the active track stays in view, and
+  // branches swing far enough that main leaves the frame until they come back.
   var graph = document.getElementById("graph");
+  var canvas = document.getElementById("graphCanvas");
   var svg = document.getElementById("graphSvg");
-  var heroPhone = document.querySelector(".phone.big");
-  var rows = Array.prototype.slice.call(graph.querySelectorAll(".g-row"));
+  var stops = {};
+  Array.prototype.forEach.call(canvas.querySelectorAll(".g-stop"), function (n) { stops[n.getAttribute("data-stop")] = n; });
   var NS = "http://www.w3.org/2000/svg";
-  var GREEN = "#1F9D55", PURPLE = "#8250DF", LANE = 58;
-  var clipRect, ticking = false;
+  var GREEN = "#1F9D55", PURPLE = "#8250DF", W = 12;
+  var T = 360;                                    // vertical length of a branch curve
+  var R = { fork: 560, out: 1480 };               // bounty/fund branch (right)
+  var L = { fork: 2280, out: 3880 };              // awa-sow/fix-retry branch (left, purple)
+  var MERGE = 4240, END = 5050, HEIGHT = 5650;
+  var PLAN = [                                    // uneven stops on purpose
+    { id: "post", lane: 0, y: 300, side: "r" },
+    { id: "fund", lane: 1, y: 1180, side: "l" },
+    { id: "claim", lane: 0, y: 2060, side: "r" },
+    { id: "push", lane: -1, y: 2900, side: "r" },
+    { id: "review", lane: -1, y: 3600, side: "l" },
+    { id: "merge", lane: 0, y: MERGE + 180, side: "l" },
+    { id: "paid", lane: 0, y: END + 90, side: "c" }
+  ];
+  var B = 600, narrow = false, clipRect = null, cam = 0, camTarget = 0, animating = false;
 
-  function el(name, attrs) {
-    var n = document.createElementNS(NS, name);
-    for (var k in attrs) n.setAttribute(k, attrs[k]);
-    return n;
+  function el(name, attrs) { var n = document.createElementNS(NS, name); for (var k in attrs) n.setAttribute(k, attrs[k]); return n; }
+  function clamp(x) { return Math.min(1, Math.max(0, x)); }
+  function smooth(x) { x = clamp(x); return x * x * (3 - 2 * x); }
+
+  function trackX(y) {
+    if (y >= R.fork && y < R.fork + T) return B * smooth((y - R.fork) / T);
+    if (y >= R.fork + T && y < R.out) return B;
+    if (y >= R.out && y < R.out + T) return B * (1 - smooth((y - R.out) / T));
+    if (y >= L.fork && y < L.fork + T) return -B * smooth((y - L.fork) / T);
+    if (y >= L.fork + T && y < L.out) return -B;
+    if (y >= L.out && y < L.out + T) return -B * (1 - smooth((y - L.out) / T));
+    return 0;
+  }
+  function screenOffset(y, vw) { return narrow ? -(vw / 2 - 44) * smooth(y / 520) : 0; }
+
+  function branch(x, b) {
+    return "M0," + b.fork + " C0," + (b.fork + T / 2) + " " + x + "," + (b.fork + T / 2) + " " + x + "," + (b.fork + T) +
+           " L" + x + "," + b.out + " C" + x + "," + (b.out + T / 2) + " 0," + (b.out + T / 2) + " 0," + (b.out + T);
   }
 
   function layout() {
-    var narrow = window.innerWidth <= 760;
-    var g = graph.getBoundingClientRect();
-    var p = heroPhone.getBoundingClientRect();
-    var startX = p.left + p.width / 2 - g.left;
-    var spineX = narrow ? 34 : g.width / 2;
-    var W = g.width, H = graph.offsetHeight;
-    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    var vw = window.innerWidth;
+    narrow = vw <= 760;
+    B = narrow ? Math.round(vw * 0.85) : Math.max(560, Math.round(vw * 0.64));
+    graph.style.height = HEIGHT + "px";
     svg.replaceChildren();
-
-    var defs = el("defs", {});
-    var clip = el("clipPath", { id: "reveal" });
-    clipRect = el("rect", { x: -50, y: 0, width: W + 100, height: 0 });
+    var defs = el("defs", {}), clip = el("clipPath", { id: "reveal" });
+    clipRect = el("rect", { x: -3 * B, y: -20, width: 6 * B, height: 0 });
     clip.appendChild(clipRect); defs.appendChild(clip); svg.appendChild(defs);
-    var layer = el("g", { "clip-path": "url(#reveal)" });
-    svg.appendChild(layer);
-
-    var feature = 0, mergeY = H - 200, endY = H - 200;
-    rows.forEach(function (row) {
-      var kind = row.getAttribute("data-kind");
-      if (kind === "end") return;
-      var right = narrow ? true : (feature % 2 === 0);
-      row.classList.toggle("right", right && !narrow);
-      row.classList.toggle("left", !right && !narrow);
-      feature++;
+    var g = el("g", { "clip-path": "url(#reveal)", fill: "none", "stroke-linecap": "round" });
+    svg.appendChild(g);
+    g.appendChild(el("path", { d: "M0,0 L0," + MERGE, stroke: GREEN, "stroke-width": W }));
+    g.appendChild(el("path", { d: branch(B, R), stroke: GREEN, "stroke-width": W }));
+    g.appendChild(el("path", { d: branch(-B, L), stroke: PURPLE, "stroke-width": W }));
+    g.appendChild(el("path", { d: "M0," + MERGE + " L0," + END, stroke: PURPLE, "stroke-width": W + 4 }));
+    PLAN.forEach(function (p) {
+      if (p.id === "paid" || p.id === "merge") return;
+      var x = p.lane * B, c = p.lane === -1 ? PURPLE : GREEN;
+      g.appendChild(el("circle", { cx: x, cy: p.y, r: 20, fill: "#FFFFFF", stroke: c, "stroke-width": W }));
     });
+    g.appendChild(el("circle", { cx: 0, cy: MERGE, r: 26, fill: PURPLE, stroke: "none" }));
+    g.appendChild(el("circle", { cx: 0, cy: END, r: 32, fill: PURPLE, stroke: "none" }));
 
-    // positions after classes applied
-    var pieces = [];
-    rows.forEach(function (row) {
-      var kind = row.getAttribute("data-kind");
-      var top = row.offsetTop, h = row.offsetHeight;
-      if (kind === "end") { endY = top + 30; return; }
-      var right = narrow || row.classList.contains("right");
-      var lane = narrow ? 28 : LANE;
-      var laneX = spineX + (right ? lane : -lane);
-      var forkY = top - 46, inY = top + 8, outY = top + h + 10, joinY = top + h + 64;
-      var color = kind === "merge" ? PURPLE : GREEN;
-      var d = "M" + spineX + "," + forkY + " C" + spineX + "," + (forkY + 30) + " " + laneX + "," + (inY - 30) + " " + laneX + "," + inY +
-              " L" + laneX + "," + outY + " C" + laneX + "," + (outY + 30) + " " + spineX + "," + (joinY - 30) + " " + spineX + "," + joinY;
-      pieces.push(el("path", { d: d, fill: "none", stroke: color, "stroke-width": 4, "stroke-linecap": "round" }));
-      var dotY = top + Math.min(36, h / 2);
-      pieces.push(el("circle", { cx: laneX, cy: dotY, r: 9, fill: "#FFFFFF", stroke: color, "stroke-width": 4 }));
-      if (kind === "merge") mergeY = joinY;
+    PLAN.forEach(function (p) {
+      var n = stops[p.id]; if (!n) return;
+      var x = p.lane * B;
+      var side = narrow && p.side !== "c" ? "r" : p.side;
+      n.classList.toggle("l", side === "l");
+      n.classList.toggle("r", side === "r");
+      n.style.top = p.y + "px";
+      if (side === "r") n.style.left = (x + (narrow ? 40 : 80)) + "px";
+      else if (side === "l") n.style.left = (x - 80 - n.offsetWidth) + "px";
+      else n.style.left = (narrow ? (vwOffsetForFinal(vw)) : 0) + "px";
     });
+    update(true);
+  }
+  function vwOffsetForFinal(vw) { return vw / 2 - 44 - 0; }
 
-    var mainD = "M" + startX + ",0 C" + startX + ",60 " + spineX + ",50 " + spineX + ",110 L" + spineX + "," + mergeY;
-    layer.appendChild(el("path", { d: mainD, fill: "none", stroke: GREEN, "stroke-width": 4, "stroke-linecap": "round" }));
-    layer.appendChild(el("path", { d: "M" + spineX + "," + mergeY + " L" + spineX + "," + endY, fill: "none", stroke: PURPLE, "stroke-width": 6, "stroke-linecap": "round" }));
-    pieces.forEach(function (n) { layer.appendChild(n); });
-    layer.appendChild(el("circle", { cx: spineX, cy: mergeY, r: 11, fill: PURPLE }));
-    layer.appendChild(el("circle", { cx: spineX, cy: endY, r: 14, fill: PURPLE }));
-    update();
+  function update(jump) {
+    var vw = window.innerWidth, vh = window.innerHeight || 800;
+    var r = graph.getBoundingClientRect();
+    var playY = vh * 0.5 - r.top;
+    if (clipRect) clipRect.setAttribute("height", Math.max(0, playY + 80));
+    PLAN.forEach(function (p) { var n = stops[p.id]; if (n) n.classList.toggle("on", playY > p.y - vh * 0.18); });
+    var y = Math.min(Math.max(playY, 0), END);
+    camTarget = -trackX(y) + screenOffset(y, vw);
+    if (jump === true) { cam = camTarget; apply(); return; }
+    if (!animating) { animating = true; requestAnimationFrame(step); }
+  }
+  function apply() { canvas.style.transform = "translateX(" + cam.toFixed(1) + "px)"; }
+  function step() {
+    var d = camTarget - cam;
+    cam += d * 0.14;
+    if (Math.abs(d) < 0.5) { cam = camTarget; animating = false; apply(); return; }
+    apply();
+    requestAnimationFrame(step);
   }
 
-  function update() {
-    ticking = false;
-    var vh = window.innerHeight || 800;
-    var g = graph.getBoundingClientRect();
-    var revealY = Math.max(0, vh * 0.62 - g.top);
-    if (clipRect) clipRect.setAttribute("height", revealY);
-    rows.forEach(function (row) { row.classList.toggle("on", revealY > row.offsetTop + 10); });
-  }
-
-  function request() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
-  window.addEventListener("scroll", request, { passive: true });
+  window.addEventListener("scroll", function () { update(false); }, { passive: true });
   var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(layout, 120); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
-  window.addEventListener("load", layout);
   layout();
 })();
