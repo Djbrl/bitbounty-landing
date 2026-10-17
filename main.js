@@ -83,9 +83,17 @@
     mask.forEach(function (row, r) {
       for (var c = 0; c < row.length; c++) if (row[c] === "#") m.appendChild(el("circle", { cx: 6 + c * 10, cy: 6 + r * 10, r: 3.3, fill: "#CFD8D2" }));
     });
+    // Tech hubs (approximate positions on the dot grid). Dakar is the story's pin.
+    var hubs = [["Abidjan", 5, 9], ["Accra", 8, 9], ["Lagos", 10, 9], ["Nairobi", 18, 11], ["Kigali", 15, 12], ["Le Caire", 17, 1], ["Johannesburg", 13, 19]];
+    hubs.forEach(function (h, i) {
+      var x = 6 + h[1] * 10, y = 6 + h[2] * 10;
+      var c = el("circle", { cx: x, cy: y, r: 4.6, fill: "#3CC77E", class: "map-hub" });
+      c.style.animationDelay = (i * 0.25) + "s";
+      m.appendChild(c);
+    });
     var px = 6, py = 56;
     m.appendChild(el("circle", { cx: px, cy: py, r: 16, fill: "#1F9D55", opacity: "0.18", class: "map-pulse" }));
-    m.appendChild(el("circle", { cx: px, cy: py, r: 6.5, fill: "#1F9D55" }));
+    m.appendChild(el("circle", { cx: px, cy: py, r: 7, fill: "#1F9D55" }));
     var t = el("text", { x: px + 14, y: py - 10, fill: "#0B1F17", "font-size": "13", "font-weight": "700", "font-family": "Instrument Sans, sans-serif" });
     t.textContent = "Dakar"; m.appendChild(t);
   }
@@ -127,7 +135,12 @@
   function update(jump) {
     var vw = window.innerWidth, vh = window.innerHeight || 800;
     var r = graph.getBoundingClientRect();
-    var playY = vh * 0.5 - r.top;
+    // The line starts growing with the very first pixel of scroll, ahead of the viewport,
+    // then the viewport catches up and the tip settles at mid-screen.
+    var mid = vh * 0.5 - r.top;
+    var gap = Math.max(1, -(vh * 0.5 - (r.top + window.scrollY)));
+    var lead = gap * (1 - smooth(window.scrollY / (3 * gap)));   // slope > -1, so the tip only moves forward
+    var playY = Math.max(0, mid + lead);
     if (clipRect) clipRect.setAttribute("height", Math.max(0, playY + 90));
     PLAN.forEach(function (p) { var n = stops[p.id]; if (n) n.classList.toggle("on", playY > p.y - vh * 0.22); });
     endPhone.classList.toggle("lit", playY > END + 140);
