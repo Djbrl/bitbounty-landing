@@ -30,9 +30,11 @@
   var story = document.getElementById("story");
   var rail = document.getElementById("phRail");
   var fill = document.getElementById("railFill");
-  var steps = Array.prototype.slice.call(document.querySelectorAll(".step"));
+  var steps = Array.prototype.slice.call(document.querySelectorAll(".cap"));
+  var stepsBox = document.getElementById("steps");
   var layers = Array.prototype.slice.call(phone.querySelectorAll(".ph-layer"));
   var heroSide = Array.prototype.slice.call(document.querySelectorAll(".hero-visual .amount, .hero-visual .card.merged"));
+  var storyTitle = document.querySelector(".story-title");
   var BASE_W = 360;
   var mode = null, stepNow = -1, ticking = false;
 
@@ -59,15 +61,16 @@
     var st = stageSlot.getBoundingClientRect();
     var stickyTop = parseFloat(getComputedStyle(stageWrap).top) || 80;
     var t = clamp((vh - st.top) / Math.max(1, vh - stickyTop));
-    var e = ease(t), ex = ease(clamp(t * 2.2));
-    var left = lerp(h.left, st.left, ex), top = lerp(h.top, st.top, e), w = lerp(h.width, st.width, e);
+    var e = ease(t);
+    var left = lerp(h.left, st.left, e), top = lerp(h.top, st.top, e), w = lerp(h.width, st.width, e);
     phone.style.transform = "translate(" + left + "px," + top + "px) scale(" + (w / BASE_W) + ")";
     phone.classList.add("ready");
     var fade = String(clamp(1 - t * 3));
     heroSide.forEach(function (el) { el.style.opacity = fade; });
+    storyTitle.style.opacity = String(clamp(1 - (t - 0.15) * 2.5));
 
-    var r = story.getBoundingClientRect();
-    var p = clamp((vh * 0.55 - r.top) / Math.max(1, r.height - vh * 0.3));
+    var sb = stepsBox.getBoundingClientRect();
+    var p = clamp((st.bottom - sb.top) / Math.max(1, sb.height - vh * 0.35));
     var step = Math.min(4, Math.floor(p * 5));
     var inStory = t > 0.98;
     rail.classList.toggle("on", inStory);

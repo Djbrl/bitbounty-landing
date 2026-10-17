@@ -195,3 +195,24 @@ footer { border-top: 1px solid rgba(11,31,23,0.1); }
 @media (prefers-reduced-motion: reduce) { .phone-fx { will-change: auto; } }
 .story-title { max-width: 54%; }
 @media (max-width: 960px) { .story-title { max-width: none; text-align: center; } }
+
+/* ---------- v3: the phone grows in place ---------- */
+.hero-slot { width: 250px; }
+.story { display: block; position: relative; }
+.story-title.center { max-width: none; text-align: center; position: relative; z-index: 6; }
+.stage-wrap { position: sticky; top: calc(50vh - min(400px, 41vh) * 1.028); width: 100%; display: flex; justify-content: center; z-index: 1; }
+.stage-slot { width: min(400px, 41vh); }
+.steps { display: block; }
+.steps .step { min-height: 0; height: 75vh; opacity: 1; }
+.captions { position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: calc(50% - min(400px, 41vh) / 2 - 40px); max-width: 420px; height: 240px; }
+.cap { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 10px; opacity: 0; transform: translateY(16px); transition: opacity 0.45s ease, transform 0.45s ease; }
+.cap.on { opacity: 1; transform: none; }
+.cap h3 { font-size: clamp(30px, 3.2vw, 48px); line-height: 1.05; }
+@media (max-width: 960px) {
+  .stage-wrap { top: 56px; flex-direction: column; align-items: center; gap: 14px; }
+  .stage-slot { width: min(220px, 50vw); order: -1; }
+  .captions { position: relative; left: auto; top: auto; transform: none; width: 100%; max-width: 520px; height: 110px; text-align: center; }
+  .cap { align-items: center; }
+  .cap h3 { font-size: 26px; }
+  .steps .step { height: 60vh; }
+}
