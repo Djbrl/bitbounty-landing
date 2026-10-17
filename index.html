@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BitBounty · Merge it. Get paid.</title>
+<meta name="description" content="Paid GitHub issues for developers in West Africa. Maintainers fund in sats, developers get paid in FCFA on Wave minutes after the merge. Powered by Bitnob.">
+<meta property="og:title" content="BitBounty · Merge it. Get paid.">
+<meta property="og:description" content="Paid GitHub issues, in FCFA, on Wave. Powered by Bitnob.">
+<meta name="theme-color" content="#0B1F17">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="styles.css">
+<script src="site.config.js"></script>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="BitBounty home">
+      <svg width="20" height="20" viewBox="0 0 30 30" aria-hidden="true"><path d="M8 4v22" stroke="currentColor" stroke-width="2.8" fill="none" stroke-linecap="round"/><path d="M8 9c0 6 4 9 10.5 9.5" stroke="currentColor" stroke-width="2.8" fill="none" stroke-linecap="round"/><circle cx="21.5" cy="18.5" r="5.2" fill="var(--green)"/></svg>
+      BitBounty
+    </a>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="#bounties">Paid issues</a>
+      <a href="#trailer">Trailer</a>
+      <a class="pill dark js-install" href="#maintainers">Install</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section id="top" class="hero">
+    <span class="product">BitBounty</span>
+    <h1>Merge it. Get paid.</h1>
+    <p class="sub">Paid GitHub issues, in FCFA, on Wave.</p>
+    <div class="ctas">
+      <a class="pill green js-demo" href="#bounties">Find a paid issue</a>
+      <a class="link" href="#maintainers">Post a bounty ›</a>
+    </div>
+
+    <div class="hero-visual">
+      <div class="card merged">
+        <span class="tag purple">Merged</span>
+        <b>Retry payouts on 5xx</b>
+        <small>bitnob-js #34 · @awa-sow</small>
+      </div>
+      <div class="phone big">
+        <span class="clock">18:51</span>
+        <span class="date">Sunday 18 October</span>
+        <div class="notif"><i>W</i><span><b>Wave</b> · now<br>Vous avez reçu 10 000 F.</span></div>
+      </div>
+      <div class="amount">
+        <span class="mono muted">6 minutes after the merge</span>
+        <span class="money">10 000<br>FCFA</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" class="dark-band">
+    <div class="wrap">
+      <h2 class="center">From forgotten issue<br>to a phone in Dakar.</h2>
+      <div id="story" class="story">
+        <div class="steps">
+          <div class="step" data-step="0"><span class="mono green-t">01</span><h3>Forgotten for 47 days.</h3></div>
+          <div class="step" data-step="1"><span class="mono green-t">02</span><h3>Funded from Paris in a second.</h3></div>
+          <div class="step" data-step="2"><span class="mono green-t">03</span><h3>Claimed in Dakar.</h3></div>
+          <div class="step" data-step="3"><span class="mono green-t">04</span><h3>Merged.</h3></div>
+          <div class="step" data-step="4"><span class="mono green-t">05</span><h3>Paid. Six minutes later.</h3></div>
+        </div>
+        <div class="stage" aria-live="polite">
+          <div class="rail">
+            <div class="rail-labels mono"><span>sats</span><span>held</span><span>FCFA</span></div>
+            <div class="rail-track"><div class="rail-fill" id="railFill"></div></div>
+          </div>
+          <div class="scenes">
+            <div class="scene" data-scene="0">
+              <div class="card issue">
+                <small>issue #12</small>
+                <b>Retry payouts on 5xx</b>
+                <div class="chips"><span>47 days</span><span>0 comments</span><span>no assignee</span></div>
+              </div>
+            </div>
+            <div class="scene col" data-scene="1">
+              <span class="money xl">10 000 F</span>
+              <span class="tag amber"><svg width="14" height="16" viewBox="0 0 14 16" aria-hidden="true"><path d="M8 1L2 9h4l-1 6 6-8H7l1-6z" fill="currentColor"/></svg>16 820 sats · Paris · 1.4 s</span>
+            </div>
+            <div class="scene col" data-scene="2">
+              <span class="avatar">AS</span>
+              <b class="handle">@awa-sow · Dakar</b>
+              <span class="tag outline mono">/claim</span>
+            </div>
+            <div class="scene col" data-scene="3">
+              <span class="tag purple xl">Merged</span>
+              <div class="ticks"><i></i><i></i><i></i></div>
+            </div>
+            <div class="scene" data-scene="4">
+              <div class="phone small">
+                <span class="clock">18:51</span>
+                <div class="notif"><i>W</i><span><b>Wave</b><br>Vous avez reçu 10 000 F.</span></div>
+              </div>
+              <span class="money lg">+10 000<br>FCFA</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tiles">
+    <div id="bounties" class="tile light">
+      <h2>Issues that pay.</h2>
+      <p>Already funded. Paid in your currency.</p>
+      <a class="link js-demo" href="#bounties">Browse paid issues ›</a>
+      <ul class="list">
+        <li><span><b>Retry payouts on 5xx</b><small>bitnob-js #12</small></span><em>10 000 F</em></li>
+        <li><span><b>Typed webhook models</b><small>bitnob-py #4</small></span><em>₦25 000</em></li>
+        <li><span><b>Onboarding in Wolof</b><small>demo-app #7</small></span><em>3 000 F</em></li>
+        <li><span><b>Checkout test over 3G</b><small>kaay-shop #51</small></span><em>5 000 F</em></li>
+      </ul>
+    </div>
+
+    <div id="maintainers" class="tile dark">
+      <h2>Your backlog, fixed.</h2>
+      <p>Pay only for what you merge.</p>
+      <a class="link green-t js-install" href="#maintainers">Install on GitHub ›</a>
+      <div class="cmd">
+        <code>/bounty 10000</code>
+        <svg width="24" height="40" viewBox="0 0 24 40" aria-hidden="true"><path d="M12 2v32M5 28l7 7 7-7" stroke="var(--green-bright)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="tag bright">Funded · held until merge</span>
+      </div>
+    </div>
+
+    <div class="tile light">
+      <h2>Where others stop.</h2>
+      <p>Getting paid from Dakar, today.</p>
+      <ul class="versus">
+        <li><span>PayPal</span><svg width="22" height="22" viewBox="0 0 20 20" role="img" aria-label="no"><path d="M5 5l10 10M15 5L5 15" stroke="#B4412B" stroke-width="2.4" stroke-linecap="round"/></svg></li>
+        <li><span>Stripe bounties</span><svg width="22" height="22" viewBox="0 0 20 20" role="img" aria-label="no"><path d="M5 5l10 10M15 5L5 15" stroke="#B4412B" stroke-width="2.4" stroke-linecap="round"/></svg></li>
+        <li class="win"><span>BitBounty</span><svg width="22" height="22" viewBox="0 0 20 20" role="img" aria-label="yes"><path d="M4 10.5l4 4 8-9" stroke="var(--green)" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></li>
+      </ul>
+    </div>
+
+    <div class="tile light">
+      <h2>Built on Bitnob.</h2>
+      <p>From the first sat to the last franc.</p>
+      <div class="flow">
+        <span class="tag amber lg">sats · USDT · ₦</span>
+        <svg width="24" height="30" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2v22M6 18l6 6 6-6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="tag ink xl2">Bitnob</span>
+        <svg width="24" height="30" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 2v22M6 18l6 6 6-6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="tag greenbg lg">Wave · Orange Money · MTN</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="trailer" class="trailer">
+    <h2>Watch the trailer.</h2>
+    <div class="video" id="video">
+      <div class="video-soon">
+        <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="rgba(255,255,255,0.12)"/><path d="M26 20l20 12-20 12z" fill="#fff"/></svg>
+        <span>Premieres at Demo Day, Sunday 15:00</span>
+      </div>
+    </div>
+    <a class="pill green js-demo-only" href="#" hidden>Open the live demo</a>
+  </section>
+
+  <section class="closing">
+    <h2>Your next contributor<br>is in Dakar.</h2>
+    <div class="ctas">
+      <a class="pill green js-install" href="#maintainers">Post a bounty</a>
+      <a class="link js-demo" href="#bounties">Find a paid issue ›</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot-in">
+    <span>BitBounty · Code &amp; Chain Dakar 2026 · payments by <a href="https://bitnob.dev" rel="noopener">Bitnob</a></span>
+    <span><a class="js-repo" href="https://github.com/Djbrl/bitbounty" rel="noopener">GitHub</a> · amounts and names on this page are illustrative</span>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
