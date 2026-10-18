@@ -1,9 +1,6 @@
 {
   "redirects": [
-    {
-      "source": "/:path*",
-      "destination": "https://bitbounty-app.vercel.app/",
-      "permanent": true
-    }
+    { "source": "/", "destination": "https://bitbounty-app.vercel.app/", "permanent": true },
+    { "source": "/:path*", "destination": "https://bitbounty-app.vercel.app/", "permanent": true }
   ]
 }
