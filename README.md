@@ -1,6 +1,6 @@
 # BitBounty landing page
 
-Static landing page for [BitBounty](https://github.com/Djbrl/bitbounty): paid GitHub issues for developers in West Africa, paid in local currency on mobile money through Bitnob. Built at Code & Chain Dakar 2026.
+Static landing page for [BitBounty](https://github.com/Djbrl/bitbounty): paid GitHub issues for developers in West Africa, funded through Bitnob and paid in sats over Lightning, to the developer's Lightning Address. Built at Code & Chain Dakar 2026.
 
 No build step: `index.html`, `styles.css`, `main.js`. Deployed on Vercel.
 
